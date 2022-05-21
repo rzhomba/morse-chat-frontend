@@ -1,0 +1,19 @@
+.SoundToggle {
+  background-color: var(--bg-dark);
+  position: absolute;
+  right: 20px;
+  bottom: 100px;
+  padding: 10px;
+  border-radius: 100px;
+  line-height: 0;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.SoundToggle:hover {
+  filter: brightness(90%);
+}
+
+.SoundToggle:active {
+  filter: brightness(80%);
+}

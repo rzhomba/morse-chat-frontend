@@ -1,0 +1,12 @@
+.Message {
+  color: var(--text-darkest);
+  margin-bottom: 10px;
+}
+
+.MsgUser {
+  color: var(--text-dark);
+}
+
+.MsgContent {
+  color: var(--text);
+}

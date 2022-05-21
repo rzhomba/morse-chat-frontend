@@ -1,0 +1,62 @@
+.Main {
+  background-color: var(--bg-light);
+  padding: 0 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 100px;
+}
+
+.MenuWrapper {
+  flex-grow: 0.5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+}
+
+.Logo {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-top: 100px;
+  margin-bottom: 75px;
+}
+
+.Menu {
+  background-color: var(--bg-dark);
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 230px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Divider {
+  color: var(--text-darkest);
+}
+
+.Join {
+  text-align: center;
+}
+
+.Github {
+  flex-grow: 0.5;
+  padding-top: 50px;
+  position: relative;
+  bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+
+.Github .GithubLink {
+  position: relative;
+  bottom: 0;
+  transition: bottom 0.3s;
+}
+
+.Github:hover .GithubLink {
+  bottom: 20px;
+}

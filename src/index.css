@@ -1,0 +1,76 @@
+@font-face {
+  font-family: Inconsolata;
+  src: url("fonts/Inconsolata/Inconsolata-VariableFont_wdth,wght.ttf") format("truetype");
+}
+
+:root {
+  --primary: #cf5c36;
+  --primary-dark: #a84828;
+  --secondary: #363636;
+  --secondary-dark: #2b2b2b;
+  --warning: #d7263d;
+  --bg-light: #444;
+  --bg: #333;
+  --bg-dark: #2a2a2a;
+  --text: #eee;
+  --text-dark: #ddd;
+  --text-darkest: #aaa;
+}
+
+body {
+  font-family: Inconsolata, monospace;
+  font-size: 1.125rem;
+  color: var(--text);
+}
+
+a {
+  text-decoration: none;
+  color: var(--text);
+}
+
+button {
+  border: none;
+  user-select: none;
+}
+
+input,
+textarea,
+button,
+select,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.Screen {
+  min-height: 100vh;
+  height: 100%;
+}
+
+.Button {
+  font-weight: 600;
+  background-color: var(--primary);
+  color: var(--text);
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  text-align: center;
+  transition: 0.1s ease-out;
+  cursor: pointer;
+}
+
+.ButtonSecondary {
+  background-color: var(--secondary);
+}
+
+.Button:hover {
+  filter: brightness(90%);
+}
+
+.Button:active {
+  background-color: var(--primary-dark);
+  color: var(--text-dark);
+}
+
+.ButtonSecondary:active {
+  background-color: var(--secondary-dark);
+  color: var(--text-dark);
+}

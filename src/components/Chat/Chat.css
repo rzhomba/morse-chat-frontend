@@ -1,0 +1,81 @@
+.Chat {
+  background-color: var(--bg-dark);
+  display: flex;
+  flex-direction: column;
+}
+
+.HeaderWrapper {
+  background-color: var(--bg-light);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.HeaderWrapper .Header {
+  margin: 0 auto;
+  padding-right: 60px;
+}
+
+.MessagesWrapper {
+  background-color: var(--bg-dark);
+}
+
+.MessagesWrapper .MessagesList {
+  min-height: calc(100vh - 60px); /* Screen height excluding header */
+  margin: 60px auto 0;
+  padding-bottom: 180px; /* Ensure that input will never overlap messages list */
+}
+
+.InputAreaWrapper {
+  background-color: var(--bg-dark);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.InputAreaWrapper .InputArea {
+  margin: 0 auto;
+}
+
+.SettingsSidebar {
+  min-width: 300px;
+}
+
+@media (min-width: 800px) {
+  .Header,
+  .MessagesList,
+  .InputHint,
+  .InputArea {
+    max-width: 800px;
+  }
+
+  .SettingsButton {
+    margin-right: calc((100vw - 800px) / 2);
+  }
+
+  .SettingsSidebar {
+    min-width: calc(300px + (100vw - 800px) / 2);
+  }
+}
+
+@media (min-width: 1250px) {
+  .SettingsSidebar {
+    min-width: calc((100vw - 800px) / 2);
+  }
+}
+
+@media (max-width: 1250px) {
+  .Chat .HeaderWrapper,
+  .Chat .MessagesList,
+  .Chat .InputArea {
+    transition: filter 0.5s;
+  }
+
+  .ChatDarken .HeaderWrapper,
+  .ChatDarken .MessagesList,
+  .ChatDarken .InputArea {
+    filter: brightness(50%);
+  }
+}

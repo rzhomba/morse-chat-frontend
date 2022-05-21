@@ -1,0 +1,20 @@
+.SettingsButton {
+  background-color: var(--bg-light);
+  padding: 10px;
+  line-height: 0;
+  border-radius: 100px;
+  transition: filter 0.15s, background-color 0.15s;
+  cursor: pointer;
+  position: fixed;
+  top: 8px;
+  right: 10px;
+  z-index: 1;
+}
+
+.SettingsButton:hover {
+  filter: brightness(90%);
+}
+
+.SettingsButtonActivated {
+  background-color: var(--bg);
+}

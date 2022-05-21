@@ -1,0 +1,25 @@
+.SettingsElement {
+  background-color: transparent;
+  color: var(--text-dark);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.SettingsElementWarning {
+  color: var(--warning);
+}
+
+.SettingsElementLabel {
+  align-self: center;
+}
+
+.SettingsElement:hover {
+  filter: brightness(90%);
+}
+
+.SettingsElement:active {
+  filter: brightness(80%);
+}
