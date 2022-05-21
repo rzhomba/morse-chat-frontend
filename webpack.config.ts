@@ -1,5 +1,5 @@
 import path from 'path'
-import { applicationPort } from './config.json'
+import config from './config.json'
 
 export default {
   entry: './src/index.tsx',
@@ -34,9 +34,9 @@ export default {
     static: {
       directory: path.join(__dirname, 'public/')
     },
-    port: applicationPort,
+    port: config.applicationPort,
     devMiddleware: {
-      publicPath: `https://localhost:${applicationPort}/dist/`
+      publicPath: `https://localhost:${config.applicationPort}/dist/`
     },
     hot: true
   }
