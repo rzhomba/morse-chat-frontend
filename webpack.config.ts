@@ -1,5 +1,5 @@
 import path from 'path'
-import { applicationPort } from './src/utils/env'
+import { applicationPort } from './config.json'
 
 export default {
   entry: './src/index.tsx',

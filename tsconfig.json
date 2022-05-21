@@ -5,6 +5,7 @@
     "jsx": "react",
     "outDir": "./dist/",
     "sourceMap": true,
+    "resolveJsonModule": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

@@ -8,7 +8,7 @@ import './index.css'
 import { store } from './store/store'
 import { Provider } from 'react-redux'
 import axios from 'axios'
-import { apiURL } from './utils/env'
+import { apiURL } from '../config.json'
 
 axios.defaults.baseURL = apiURL
 axios.defaults.headers.post['Content-Type'] = 'application/json'

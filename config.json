@@ -1,0 +1,4 @@
+{
+  "applicationPort": 8080,
+  "apiURL": "http://localhost:3000"
+}
