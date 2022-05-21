@@ -7,6 +7,7 @@
 .HeaderWrapper {
   background-color: var(--bg-light);
   position: fixed;
+  z-index: 2;
   top: 0;
   left: 0;
   right: 0;
@@ -19,6 +20,8 @@
 
 .MessagesWrapper {
   background-color: var(--bg-dark);
+  position: relative;
+  z-index: 1;
 }
 
 .MessagesWrapper .MessagesList {
@@ -30,6 +33,7 @@
 .InputAreaWrapper {
   background-color: var(--bg-dark);
   position: fixed;
+  z-index: 3;
   bottom: 0;
   left: 0;
   right: 0;
@@ -39,8 +43,17 @@
   margin: 0 auto;
 }
 
+.SettingsButton {
+  position: fixed;
+  top: 8px;
+  right: 10px;
+  z-index: 5;
+}
+
 .SettingsSidebar {
   min-width: 300px;
+  position: fixed;
+  z-index: 4;
 }
 
 @media (min-width: 800px) {
@@ -68,14 +81,14 @@
 
 @media (max-width: 1250px) {
   .Chat .HeaderWrapper,
-  .Chat .MessagesList,
-  .Chat .InputArea {
+  .Chat .MessagesWrapper,
+  .Chat .InputAreaWrapper {
     transition: filter 0.5s;
   }
 
   .ChatDarken .HeaderWrapper,
-  .ChatDarken .MessagesList,
-  .ChatDarken .InputArea {
+  .ChatDarken .MessagesWrapper,
+  .ChatDarken .InputAreaWrapper {
     filter: brightness(50%);
   }
 }
