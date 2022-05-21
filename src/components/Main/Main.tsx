@@ -19,7 +19,8 @@ const Main = () => {
         </div>
       </div>
       <div className="Github">
-        <a href="src/components/Main/Main" className="GithubLink"><GithubIcon/></a>
+        <a href="https://github.com/rzhomba/morse-chat-frontend"
+           target="_blank" className="GithubLink" rel="noreferrer"><GithubIcon/></a>
       </div>
     </div>
   )
