@@ -7,6 +7,11 @@ import 'normalize.css'
 import './index.css'
 import { store } from './store/store'
 import { Provider } from 'react-redux'
+import axios from 'axios'
+import { apiURL } from './utils/env'
+
+axios.defaults.baseURL = apiURL
+axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 const container = document.getElementById('root')
 const root = createRoot(container!)

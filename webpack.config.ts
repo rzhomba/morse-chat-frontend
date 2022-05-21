@@ -1,8 +1,5 @@
 import path from 'path'
-import { fileURLToPath } from 'url'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+import { applicationPort } from './src/utils/env'
 
 export default {
   entry: './src/index.tsx',
@@ -37,7 +34,7 @@ export default {
     static: {
       directory: path.join(__dirname, 'public/')
     },
-    port: 8080,
+    port: applicationPort,
     devMiddleware: {
       publicPath: 'https://localhost:8080/dist/'
     },
