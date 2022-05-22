@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import CreateRoomButton from './CreateRoomButton'
 import './Main.css'
 import GithubIcon from '#icons/github.svg'
 
@@ -11,9 +11,7 @@ const Main = () => {
           Morse Chat
         </div>
         <div className="Menu">
-          <Link to="/jd8AjE7s">
-            <div className="Create Button">Create a room</div>
-          </Link>
+          <CreateRoomButton/>
           <p className="Divider">or</p>
           <div className="Join">Follow an invitation link to join existing</div>
         </div>

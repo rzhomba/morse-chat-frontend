@@ -1,26 +1,17 @@
 import React from 'react'
+import { selectChat } from '../../../store/chat/chatSlice'
+import { useAppSelector } from '../../../utils/hooks'
 import Message from './Message'
 import './MessagesList.css'
 
 const MessagesList = () => {
-  const currentUser = 'ASDF'
-  const messagesPlaceholder = [
-    { user: 'HETR', type: 'join' },
-    { user: 'HETR', type: 'message', content: '... --- ...' },
-    { user: 'QWOB', type: 'join' },
-    { user: 'QWOB', type: 'message', content: '.... ..' },
-    { user: 'HETR', type: 'message', content: '.... . -.--' },
-    { user: 'ODTE', type: 'join' },
-    { user: 'ODTE', type: 'leave' },
-    { user: 'HETR', type: 'message', content: '... .- -..' },
-    { user: 'ASDF', type: 'join' },
-    { user: 'ITME', type: 'join' },
-    { user: 'ASDF', type: 'message', content: '-.--- .- / ..- ... - .- .-.. / ..- --.. .... .' }
-  ]
+  const currentUser = '' // TODO: implement this
+
+  const { messages } = useAppSelector(selectChat)
 
   return (
     <div className="MessagesList">
-      {messagesPlaceholder.map((v, i) => (
+      {messages.map((v, i) => (
         <Message
           user={v.user === currentUser ? `${v.user} (YOU)` : v.user}
           type={v.type as 'message' | 'join' | 'leave'}
