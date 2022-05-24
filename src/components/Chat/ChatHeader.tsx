@@ -5,16 +5,16 @@ import './ChatHeader.css'
 import UsersIcon from '#icons/users.svg'
 
 const ChatHeader = () => {
-  const { users } = useAppSelector(selectChat)
+  const { chatUsers } = useAppSelector(selectChat)
 
   return (
     <div className="Header">
       <UsersIcon className="UsersIcon"/>
       <div className="UsersList">
-        {users.map(u => u.name).join(', ')}
+        {chatUsers.map(u => u.name).join(', ')}
       </div>
       <div className="UsersCount">
-        {users.length}/4
+        {chatUsers.length}/4
       </div>
     </div>
   )

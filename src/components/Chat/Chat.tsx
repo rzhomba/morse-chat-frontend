@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { selectSettings } from '../../store/settings/settingsSlice'
-import { initialize } from '../../store/chat/chatSlice'
+import { initializeChat, setUser, cleanChat } from '../../store/chat/chatSlice'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 import ChatHeader from './ChatHeader'
 import SettingsButton from './Settings/SettingsButton'
@@ -10,7 +10,10 @@ import MessagesList from './Messages/MessagesList'
 import InputArea from './Input/InputArea'
 import './Chat.css'
 import axios from 'axios'
+import { io } from 'socket.io-client'
+import { SIOSocket } from '../../types/socket.types'
 import { IRoom } from '../../types/room.interface'
+import config from '../../../config.json'
 
 const Chat = () => {
   const { key } = useParams()
@@ -20,16 +23,41 @@ const Chat = () => {
   const { settingsShown } = useAppSelector(selectSettings)
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    const keyRegex = /^[a-zA-Z\d]{8}$/gm
+  const [socket, setSocket] = useState<SIOSocket | undefined>()
 
-    if (key && keyRegex.test(key)) {
-      axios.get<IRoom>(`/${key}`)
-        .then((response) => {
-          dispatch(initialize(response.data))
-        })
-    } else {
+  // Fetch chat room and establish connection to it
+  useEffect(() => {
+    if (!key || !/^[a-zA-Z\d]{8}$/gm.test(key)) {
       navigate('../')
+      return
+    }
+
+    axios.get<IRoom>(`/${key}`)
+      .then((response) => {
+        dispatch(initializeChat(response.data))
+      })
+
+    const socketInstance: SIOSocket = io(config.apiURL, {
+      withCredentials: true
+    })
+    setSocket(socketInstance)
+
+    const join = async () => socketInstance.emit('join', key, (user) => {
+      if (!user || !user.name) {
+        socketInstance.emit('register', key, (user) => {
+          dispatch(setUser(user))
+        })
+      } else {
+        dispatch(setUser(user))
+      }
+    })
+    const timerId = setTimeout(join, 100)
+
+    return () => {
+      clearTimeout(timerId)
+      socketInstance.disconnect()
+      dispatch(cleanChat())
+      setSocket(undefined)
     }
   }, [])
 

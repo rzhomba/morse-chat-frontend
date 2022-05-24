@@ -4,33 +4,50 @@ import { IUser } from '../../types/user.interface'
 import { IMessage } from '../../types/message.interface'
 import { IRoom } from '../../types/room.interface'
 
-type ChatState = IRoom
+interface ChatState {
+  chatKey: string
+  chatUsers: IUser[]
+  chatMessages: IMessage[]
+  chatUser?: IUser
+}
 
 const initialState: ChatState = {
-  key: '',
-  users: [],
-  messages: []
+  chatKey: '',
+  chatUsers: [],
+  chatMessages: [],
+  chatUser: undefined
 }
 
 export const chatSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
-    initialize: (state, action: PayloadAction<IRoom>) => action.payload,
-    addUser: (state, action: PayloadAction<IUser>) => {
-      state.users.push(action.payload)
+    initializeChat: (state, action: PayloadAction<IRoom>) => ({
+      chatKey: action.payload.key,
+      chatUsers: action.payload.users,
+      chatMessages: action.payload.messages,
+      chatUser: undefined
+    }),
+    cleanChat: () => initialState,
+    setUser: (state, action: PayloadAction<IUser>) => {
+      state.chatUser = action.payload
     },
-    removeUser: (state, action: PayloadAction<IUser>) => { // TODO: test this, I'm not sure that it'll work
-      state.users = state.users.filter(user => user.name !== action.payload.name)
+    addUser: (state, action: PayloadAction<IUser>) => {
+      state.chatUsers.push(action.payload)
+    },
+    removeUser: (state, action: PayloadAction<IUser>) => {
+      state.chatUsers = state.chatUsers.filter(user => user.name !== action.payload.name)
     },
     addMessage: (state, action: PayloadAction<IMessage>) => {
-      state.messages.push(action.payload)
+      state.chatMessages.push(action.payload)
     }
   }
 })
 
 export const {
-  initialize,
+  initializeChat,
+  cleanChat,
+  setUser,
   addUser,
   removeUser,
   addMessage
