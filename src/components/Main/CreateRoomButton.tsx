@@ -7,7 +7,7 @@ const CreateRoomButton = () => {
   const navigate = useNavigate()
 
   const createRoom = async () => {
-    const { data } = await axios.post<IRoom>('/')
+    const { data } = await axios.post<IRoom>('/chat')
     const { key } = data
     navigate(`/${key}`)
   }

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 import { IUser } from '../../types/user.interface'
 import { IMessage } from '../../types/message.interface'
-import { IRoom } from '../../types/room.interface'
+import { ChatResponse } from '../../types/response.types'
 
 interface ChatState {
   chatKey: string
@@ -22,16 +22,13 @@ export const chatSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
-    initializeChat: (state, action: PayloadAction<IRoom>) => ({
+    initializeChat: (state, action: PayloadAction<ChatResponse>) => ({
       chatKey: action.payload.key,
       chatUsers: action.payload.users,
       chatMessages: action.payload.messages,
-      chatUser: undefined
+      chatUser: action.payload.user
     }),
     cleanChat: () => initialState,
-    setUser: (state, action: PayloadAction<IUser>) => {
-      state.chatUser = action.payload
-    },
     addUser: (state, action: PayloadAction<IUser>) => {
       state.chatUsers.push(action.payload)
     },
@@ -47,7 +44,6 @@ export const chatSlice = createSlice({
 export const {
   initializeChat,
   cleanChat,
-  setUser,
   addUser,
   removeUser,
   addMessage

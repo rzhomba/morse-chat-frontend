@@ -4,8 +4,8 @@ import './SettingsElement.css'
 const SettingsElement = (prop: {
   icon: React.FunctionComponent<React.SVGAttributes<SVGElement>>,
   label: string,
-  onClick: () => void,
   warning?: boolean
+  onClick: () => void,
 }) => {
   return (
     <button className={`SettingsElement ${prop.warning ? 'SettingsElementWarning' : ''}`} onClick={prop.onClick}>

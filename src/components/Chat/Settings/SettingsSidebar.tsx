@@ -1,7 +1,7 @@
 import React from 'react'
 import { selectSettings, toggleSettings, toggleCheat, toggleDecoding } from '../../../store/settings/settingsSlice'
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import SettingsElement from './SettingsElement'
 import './SettingsSidebar.css'
 import InfoIcon from '#icons/info.svg'
@@ -12,10 +12,24 @@ import UserAddIcon from '#icons/useradd.svg'
 import UserDelIcon from '#icons/userdel.svg'
 import DeleteIcon from '#icons/delete.svg'
 import LeaveIcon from '#icons/leave.svg'
+import axios from 'axios'
+import { SuccessResponse } from '../../../types/response.types'
+import { selectChat } from '../../../store/chat/chatSlice'
 
 const SettingsSidebar = () => {
   const { settingsShown, cheatShown, decodingEnabled } = useAppSelector(selectSettings)
+  const { chatKey } = useAppSelector(selectChat)
   const dispatch = useAppDispatch()
+
+  const navigate = useNavigate()
+
+  const leave = () => {
+    axios.delete<SuccessResponse>(`/chat/leave/${chatKey}`)
+      .then(() => {
+        dispatch(toggleSettings(false))
+        navigate('../')
+      })
+  }
 
   return (
     <div className={`SettingsSidebar SettingsSidebar${settingsShown ? 'Visible' : 'Hidden'}`}>
@@ -37,11 +51,9 @@ const SettingsSidebar = () => {
 
         <div className="Delimiter"></div>
 
-        <SettingsElement icon={DeleteIcon} label="Delete room" onClick={() => {}} warning={true}/>
-        <Link to="/">
-          <SettingsElement icon={LeaveIcon} label="Leave room"
-                           onClick={() => dispatch(toggleSettings(false))} warning={true}/>
-        </Link>
+        <SettingsElement icon={DeleteIcon} label="Delete room" warning={true} onClick={() => {}}/>
+        <SettingsElement icon={LeaveIcon} label="Leave room" warning={true}
+                         onClick={() => leave()}/>
       </div>
     </div>
   )

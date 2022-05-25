@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { selectSettings } from '../../store/settings/settingsSlice'
-import { initializeChat, setUser, cleanChat } from '../../store/chat/chatSlice'
+import { initializeChat, cleanChat, addMessage } from '../../store/chat/chatSlice'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 import ChatHeader from './ChatHeader'
 import SettingsButton from './Settings/SettingsButton'
@@ -9,57 +9,76 @@ import SettingsSidebar from './Settings/SettingsSidebar'
 import MessagesList from './Messages/MessagesList'
 import InputArea from './Input/InputArea'
 import './Chat.css'
-import axios from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
+import { ChatResponse, SuccessResponse } from '../../types/response.types'
 import { io } from 'socket.io-client'
 import { SIOSocket } from '../../types/socket.types'
-import { IRoom } from '../../types/room.interface'
+import { IMessage } from '../../types/message.interface'
 import config from '../../../config.json'
 
 const Chat = () => {
   const { key } = useParams()
-
   const navigate = useNavigate()
-
+  const [socket, setSocket] = useState<SIOSocket | undefined>()
   const { settingsShown } = useAppSelector(selectSettings)
   const dispatch = useAppDispatch()
 
-  const [socket, setSocket] = useState<SIOSocket | undefined>()
-
-  // Fetch chat room and establish connection to it
+  // Fetch chat room and authorize in it
   useEffect(() => {
     if (!key || !/^[a-zA-Z\d]{8}$/gm.test(key)) {
       navigate('../')
       return
     }
 
-    axios.get<IRoom>(`/${key}`)
-      .then((response) => {
-        dispatch(initializeChat(response.data))
-      })
+    const fetchData = (response: AxiosResponse<ChatResponse>) => {
+      dispatch(initializeChat(response.data))
+      setSocket(io(config.apiURL, {
+        withCredentials: true
+      }))
+    }
 
-    const socketInstance: SIOSocket = io(config.apiURL, {
-      withCredentials: true
-    })
-    setSocket(socketInstance)
-
-    const join = async () => socketInstance.emit('join', key, (user) => {
-      if (!user || !user.name) {
-        socketInstance.emit('register', key, (user) => {
-          dispatch(setUser(user))
+    const join = () => {
+      axios.get<ChatResponse>(`/chat/${key}`)
+        .then(fetchData)
+        .catch((error: AxiosError) => {
+          if (error.response?.status === 401) {
+            axios.post<SuccessResponse>(`/chat/join/${key}`).then(response => {
+              if (!response.data.success) {
+                return
+              }
+              axios.get<ChatResponse>(`/chat/${key}`)
+                .then(fetchData)
+            })
+          }
         })
-      } else {
-        dispatch(setUser(user))
-      }
-    })
+    }
+    // Ensure that client will have time to receive auth cookie
     const timerId = setTimeout(join, 100)
 
     return () => {
       clearTimeout(timerId)
-      socketInstance.disconnect()
       dispatch(cleanChat())
       setSocket(undefined)
     }
   }, [])
+
+  // Establish socket connection to chat room
+  useEffect(() => {
+    if (!socket || !key) {
+      return
+    }
+
+    socket.emit('join', key)
+
+    socket.on('message', (message: IMessage) => {
+      dispatch(addMessage(message))
+    })
+
+    return () => {
+      socket.disconnect()
+      setSocket(undefined)
+    }
+  }, [socket])
 
   return (
     <div className={`Chat Screen ${settingsShown ? 'ChatDarken' : ''}`}>
