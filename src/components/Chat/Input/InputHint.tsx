@@ -16,7 +16,7 @@ const InputHint = () => {
   return (
     <div className="InputHint">
       <div className="InputHintUser">
-        YOU:
+        {inputContent.length > 0 ? 'YOU:' : ''}
       </div>
       <div className="InputHintBody" ref={hintBody}>
         {inputContent}
