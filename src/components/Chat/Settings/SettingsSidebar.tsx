@@ -37,7 +37,8 @@ const SettingsSidebar = () => {
         Settings and Info
       </div>
       <div className="Settings">
-        <SettingsElement icon={InfoIcon} label="Help" onClick={() => {}}/>
+        <SettingsElement icon={InfoIcon} label="Help"
+                         onClick={() => {}}/>
         <SettingsElement icon={SheetIcon} label={`${cheatShown ? 'Hide' : 'Show'} cheat sheet`}
                          onClick={() => dispatch(toggleCheat(!cheatShown))}/>
         <SettingsElement icon={LetterIcon} label={`${decodingEnabled ? 'Disable' : 'Enable'} decoding`}
@@ -45,14 +46,18 @@ const SettingsSidebar = () => {
 
         <div className="Delimiter"></div>
 
-        <SettingsElement icon={UserListIcon} label="View users" onClick={() => {}}/>
-        <SettingsElement icon={UserAddIcon} label="Invite user" onClick={() => {}}/>
-        <SettingsElement icon={UserDelIcon} label="Remove user" onClick={() => {}}/>
+        <SettingsElement icon={UserListIcon} label="View users"
+                         onClick={() => {}}/>
+        <SettingsElement icon={UserAddIcon} label="Invite user"
+                         onClick={() => {}}/>
+        <SettingsElement icon={UserDelIcon} label="Remove user" access={'admin'}
+                         onClick={() => {}}/>
 
         <div className="Delimiter"></div>
 
-        <SettingsElement icon={DeleteIcon} label="Delete room" warning={true} onClick={() => {}}/>
-        <SettingsElement icon={LeaveIcon} label="Leave room" warning={true}
+        <SettingsElement icon={DeleteIcon} label="Delete room" warning={true} access={'admin'}
+                         onClick={() => {}}/>
+        <SettingsElement icon={LeaveIcon} label="Leave room" warning={true} access={'member'}
                          onClick={() => leave()}/>
       </div>
     </div>
