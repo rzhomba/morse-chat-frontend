@@ -11,7 +11,7 @@ const MessagesList = () => {
     <div className="MessagesList">
       {chatMessages.map((v, i) => (
         <Message
-          user={v.user === chatUser?.name ? `${v.user} (YOU)` : v.user}
+          user={v.user === chatUser ? `${v.user} (YOU)` : v.user }
           type={v.type as 'message' | 'join' | 'leave'}
           content={v.content}
           key={`msg${i}`}/>
