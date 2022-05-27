@@ -11,7 +11,7 @@ import InputArea from './Input/InputArea'
 import './Chat.css'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { ChatResponse, SuccessResponse } from '../../types/response.types'
-import { io } from 'socket.io-client'
+import { SocketIO } from '../../utils/socket-io'
 import { SIOSocket } from '../../types/socket.types'
 import { IMessage } from '../../types/message.interface'
 import config from '../../../config.json'
@@ -32,7 +32,7 @@ const Chat = () => {
 
     const fetchData = (response: AxiosResponse<ChatResponse>) => {
       dispatch(initializeChat(response.data))
-      setSocket(io(config.apiURL, {
+      setSocket(SocketIO.instance().initialize(config.apiURL, {
         withCredentials: true
       }))
     }
