@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './InputAreaButton.css'
 import { selectInput, addContent, stopInput } from '../../../store/input/inputSlice'
+import { selectSettings } from '../../../store/settings/settingsSlice'
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks'
 import timing from '../../../utils/timing'
 import { SocketIO } from '../../../utils/socket-io'
@@ -26,11 +27,21 @@ const InputAreaButton = () => {
     btnText
   }, setState] = useState<InputAreaButtonState>(initialState)
 
+  const gainNodeRef = useRef<GainNode | undefined>(undefined)
+  const gainValue = 0.2
+
   const { inputContent } = useAppSelector(selectInput)
+  const { soundEnabled } = useAppSelector(selectSettings)
   const dispatch = useAppDispatch()
 
   const onBtnDown = () => {
     const pressed = new Date()
+
+    if (soundEnabled) {
+      if (gainNodeRef.current) {
+        gainNodeRef.current.gain.value = gainValue
+      }
+    }
 
     // Inserts a space before the character input (on button down)
     if (lastPressed) {
@@ -58,6 +69,10 @@ const InputAreaButton = () => {
 
   const onBtnUp = () => {
     const pressed = new Date()
+
+    if (gainNodeRef.current) {
+      gainNodeRef.current.gain.value = 0
+    }
 
     // Inserts the character to input
     let content = ''
@@ -136,6 +151,35 @@ const InputAreaButton = () => {
       setState(prevState => ({ ...prevState, btnText: initialState.btnText }))
     }
   }, [isPressed])
+
+  // Initialize audio context and set up sound
+  useEffect(() => {
+    const audioContext = new window.AudioContext()
+
+    const oscillator = audioContext.createOscillator()
+    oscillator.type = 'sine'
+    oscillator.frequency.value = 750
+
+    const gainNode = audioContext.createGain()
+    gainNode.gain.value = 0
+
+    oscillator.connect(gainNode)
+    gainNode.connect(audioContext.destination)
+
+    oscillator.start()
+    audioContext.resume()
+
+    gainNodeRef.current = gainNode
+
+    return () => {
+      gainNodeRef.current = undefined
+
+      oscillator.stop()
+
+      audioContext.suspend()
+      audioContext.close()
+    }
+  }, [])
 
   return (
     <button className={`Button InputAreaButton ${isPressed ? 'InputAreaButtonActive' : ''}`}
