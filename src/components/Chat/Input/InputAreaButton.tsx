@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import './InputAreaButton.css'
-import { addContent, stopInput } from '../../../store/input/inputSlice'
-import { useAppDispatch } from '../../../utils/hooks'
+import { selectInput, addContent, stopInput } from '../../../store/input/inputSlice'
+import { useAppDispatch, useAppSelector } from '../../../utils/hooks'
 import timing from '../../../utils/timing'
+import { SocketIO } from '../../../utils/socket-io'
 
 interface InputAreaButtonState {
   timeoutId: ReturnType<typeof setTimeout> | undefined
@@ -25,6 +26,7 @@ const InputAreaButton = () => {
     btnText
   }, setState] = useState<InputAreaButtonState>(initialState)
 
+  const { inputContent } = useAppSelector(selectInput)
   const dispatch = useAppDispatch()
 
   const onBtnDown = () => {
@@ -44,6 +46,9 @@ const InputAreaButton = () => {
       dispatch(addContent(content))
     }
 
+    // Clears send timer
+    clearTimeout(timeoutId)
+
     setState(prevState => ({
       ...prevState,
       lastPressed: pressed,
@@ -55,10 +60,9 @@ const InputAreaButton = () => {
     const pressed = new Date()
 
     // Inserts the character to input
+    let content = ''
     if (lastPressed) {
       const msElapsed = pressed.getTime() - lastPressed.getTime()
-
-      let content = ''
       if (msElapsed <= timing.dotLength) {
         content = '.'
       } else if (msElapsed <= timing.dashLength) {
@@ -68,9 +72,8 @@ const InputAreaButton = () => {
       dispatch(addContent(content))
     }
 
-    // Clears the previous timer and sets a new one that sends the message after a period of user inactivity
-    clearTimeout(timeoutId)
-    const tId = setTimeout(sendInput, timing.sendTimeout)
+    // Sets a new timer that sends the message after a period of user inactivity
+    const tId = setTimeout(() => sendInput(inputContent + content), timing.sendTimeout)
 
     setState(prevState => ({
       ...prevState,
@@ -80,7 +83,8 @@ const InputAreaButton = () => {
     }))
   }
 
-  const sendInput = () => {
+  const sendInput = (message: string) => {
+    SocketIO.instance().client().emit('message', message)
     setState(() => initialState)
     dispatch(stopInput())
   }
