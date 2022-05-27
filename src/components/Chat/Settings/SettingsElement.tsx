@@ -1,5 +1,7 @@
 import React from 'react'
 import './SettingsElement.css'
+import { useAppSelector } from '../../../utils/hooks'
+import { selectChat } from '../../../store/chat/chatSlice'
 
 interface SettingsElementProp {
   icon: React.FunctionComponent<React.SVGAttributes<SVGElement>>
@@ -10,7 +12,9 @@ interface SettingsElementProp {
 }
 
 const SettingsElement = (prop: SettingsElementProp) => {
-  const isAdmin = false // TODO: replace this placeholder later
+  const { chatUser } = useAppSelector(selectChat)
+
+  const isAdmin = chatUser?.role === 'admin'
   let showSetting = true
   if (!prop.access) {
     showSetting = true

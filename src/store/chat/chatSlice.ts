@@ -8,7 +8,7 @@ interface ChatState {
   chatKey: string
   chatUsers: IUser[]
   chatMessages: IMessage[]
-  chatUser?: string
+  chatUser?: IUser
 }
 
 const initialState: ChatState = {

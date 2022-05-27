@@ -1,7 +1,8 @@
 import { IRoom } from './room.interface'
+import { IUser } from './user.interface'
 
 export interface ChatResponse extends IRoom {
-  user: string
+  user: IUser
 }
 
 export interface SuccessResponse {

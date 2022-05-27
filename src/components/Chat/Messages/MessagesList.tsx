@@ -13,7 +13,7 @@ const MessagesList = () => {
         <Message
           user={v.user}
           postfix={
-            v.user === chatUser
+            v.user === chatUser?.name
               ? 'YOU'
               : chatUsers.find(u => u.name === v.user)?.role === 'admin'
                 ? 'ADM'
