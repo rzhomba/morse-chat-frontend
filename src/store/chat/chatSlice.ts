@@ -32,8 +32,8 @@ export const chatSlice = createSlice({
     addUser: (state, action: PayloadAction<IUser>) => {
       state.chatUsers.push(action.payload)
     },
-    removeUser: (state, action: PayloadAction<IUser>) => {
-      state.chatUsers = state.chatUsers.filter(user => user.name !== action.payload.name)
+    removeUser: (state, action: PayloadAction<string>) => {
+      state.chatUsers = state.chatUsers.filter(user => user.name !== action.payload)
     },
     addMessage: (state, action: PayloadAction<IMessage>) => {
       state.chatMessages.push(action.payload)

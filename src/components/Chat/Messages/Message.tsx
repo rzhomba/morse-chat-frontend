@@ -1,18 +1,29 @@
 import React from 'react'
 import './Message.css'
+import { IMessage } from '../../../types/message.interface'
 
-const Message = (prop: { user: string, type: 'message' | 'join' | 'leave', content?: string }) => {
+interface MessageProp extends IMessage {
+  postfix: 'YOU' | 'ADM' | 'MEM'
+}
+
+const Message = (prop: MessageProp) => {
+  const user = `${prop.user} (${prop.postfix})`
+  let content
+
   if (prop.type === 'message') {
-    return (<div className="Message">
-        <span className="MsgUser">{prop.user}</span>
+    content = (<div className="Message">
+        <span className="MsgUser">{user}</span>
         {': '}
         <span className="MsgContent">{prop.content}</span>
       </div>
     )
+  } else {
+    const action = prop.type === 'join' ? 'joined the room' : 'left the room'
+    content = <span>{`${user} ${action}`}</span>
   }
-  const action = prop.type === 'join' ? 'joined the room' : 'left the room'
+
   return (
-    <div className="Message">{`${prop.user} ${action}`}</div>
+    <div className="Message">{content}</div>
   )
 }
 

@@ -74,9 +74,9 @@ const Chat = () => {
       dispatch(addMessage(message))
 
       if (message.type === 'join') {
-        dispatch(addUser({ name: message.user }))
+        dispatch(addUser({ name: message.user, role: 'member' }))
       } else if (message.type === 'leave') {
-        dispatch(removeUser({ name: message.user }))
+        dispatch(removeUser(message.user))
       }
     })
 
