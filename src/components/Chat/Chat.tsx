@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { selectSettings } from '../../store/settings/settingsSlice'
-import { initializeChat, cleanChat, addMessage } from '../../store/chat/chatSlice'
+import { initializeChat, cleanChat, addMessage, addUser, removeUser } from '../../store/chat/chatSlice'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 import ChatHeader from './ChatHeader'
 import SettingsButton from './Settings/SettingsButton'
@@ -72,6 +72,12 @@ const Chat = () => {
 
     socket.on('message', (message: IMessage) => {
       dispatch(addMessage(message))
+
+      if (message.type === 'join') {
+        dispatch(addUser({ name: message.user }))
+      } else if (message.type === 'leave') {
+        dispatch(removeUser({ name: message.user }))
+      }
     })
 
     return () => {
