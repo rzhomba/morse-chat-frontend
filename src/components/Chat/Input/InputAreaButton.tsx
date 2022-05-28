@@ -5,6 +5,7 @@ import { selectSettings } from '../../../store/settings/settingsSlice'
 import { useAppDispatch, useAppSelector } from '../../../utils/hooks'
 import { resumeSound, stopSound } from '../../../utils/sound'
 import timing from '../../../utils/timing'
+import { validateMorse } from '../../../utils/dictionary'
 import { SocketIO } from '../../../utils/socket-io'
 
 interface InputAreaButtonState {
@@ -91,6 +92,7 @@ const InputAreaButton = () => {
   }
 
   const sendInput = (message: string) => {
+    message = validateMorse(message)
     SocketIO.instance().client().emit('message', message)
     setState(() => initialState)
     dispatch(stopInput())

@@ -1,11 +1,14 @@
 import React from 'react'
-import { selectChat } from '../../../store/chat/chatSlice'
 import { useAppSelector } from '../../../utils/hooks'
+import { selectChat } from '../../../store/chat/chatSlice'
+import { selectSettings } from '../../../store/settings/settingsSlice'
 import Message from './Message'
 import './MessagesList.css'
+import { morseToStr } from '../../../utils/dictionary'
 
 const MessagesList = () => {
   const { chatMessages, chatUsers, chatUser } = useAppSelector(selectChat)
+  const { decodingEnabled } = useAppSelector(selectSettings)
 
   return (
     <div className="MessagesList">
@@ -20,7 +23,7 @@ const MessagesList = () => {
                 : 'MEM'
           }
           type={v.type}
-          content={v.content}
+          content={decodingEnabled && v.content ? morseToStr(v.content) : v.content}
           key={`msg${i}`}/>
       ))}
     </div>
