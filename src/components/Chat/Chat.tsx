@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { selectSettings } from '../../store/settings/settingsSlice'
-import { initializeChat, cleanChat, addMessage, addUser, removeUser } from '../../store/chat/chatSlice'
+import { initializeChat, cleanChat, addMessage, addUser, removeUser, selectChat } from '../../store/chat/chatSlice'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 import ChatHeader from './ChatHeader'
 import SettingsButton from './Settings/SettingsButton'
@@ -14,14 +14,16 @@ import { ChatResponse, SuccessResponse } from '../../types/response.types'
 import { SocketIO } from '../../utils/socket-io'
 import { SIOSocket } from '../../types/socket.types'
 import { IMessage } from '../../types/message.interface'
-import { clearSound, initializeSound } from '../../utils/sound'
+import { clearSound, initializeSound, playbackMessage } from '../../utils/sound'
 import config from '../../../config.json'
 
 const Chat = () => {
   const { key } = useParams()
   const navigate = useNavigate()
   const [socket, setSocket] = useState<SIOSocket | undefined>()
-  const { settingsShown } = useAppSelector(selectSettings)
+  const soundReady = useRef(false)
+  const { settingsShown, soundEnabled } = useAppSelector(selectSettings)
+  const { chatUser } = useAppSelector(selectChat)
   const dispatch = useAppDispatch()
 
   // Fetch chat room and authorize in it
@@ -74,6 +76,10 @@ const Chat = () => {
     socket.on('message', (message: IMessage) => {
       dispatch(addMessage(message))
 
+      if (soundReady.current && chatUser?.name !== message.user && message.content) {
+        playbackMessage(message.content)
+      }
+
       if (message.type === 'join') {
         dispatch(addUser({ name: message.user, role: 'member' }))
       } else if (message.type === 'leave') {
@@ -89,13 +95,21 @@ const Chat = () => {
 
   // Initialize audio context and set up sound
   useEffect(() => {
+    if (!soundEnabled) {
+      return
+    }
+
     initializeSound(750, 0.2)
-      .then()
+      .then(() => {
+        soundReady.current = true
+      })
     return () => {
       clearSound()
-        .then()
+        .then(() => {
+          soundReady.current = false
+        })
     }
-  }, [])
+  }, [soundEnabled])
 
   return (
     <div className={`Chat Screen ${settingsShown ? 'ChatDarken' : ''}`}>

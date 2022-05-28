@@ -35,9 +35,7 @@ const InputAreaButton = () => {
   const onBtnDown = () => {
     const pressed = new Date()
 
-    if (soundEnabled) {
-      resumeSound()
-    }
+    soundEnabled && resumeSound()
 
     // Inserts a space before the character input (on button down)
     if (lastPressed) {
@@ -66,7 +64,7 @@ const InputAreaButton = () => {
   const onBtnUp = () => {
     const pressed = new Date()
 
-    stopSound()
+    soundEnabled && stopSound()
 
     // Inserts the character to input
     let content = ''

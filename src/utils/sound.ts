@@ -1,3 +1,5 @@
+import timings from './timing'
+
 let audioContext: AudioContext
 let oscillatorNode: OscillatorNode
 let gainNode: GainNode
@@ -44,4 +46,56 @@ export const resumeSound = () => {
 export const stopSound = () => {
   verifyInit()
   gainNode.gain.value = 0
+}
+
+export const playbackMessage = (message: string) => {
+  verifyInit()
+
+  const intervals: { duration: number, audible: boolean }[] = []
+
+  for (const char of message) {
+    switch (char) {
+      case '.':
+        intervals.push({
+          duration: timings.dotLength,
+          audible: true
+        }, {
+          duration: timings.symbolSpace,
+          audible: false
+        })
+        break
+      case '-':
+        intervals.push({
+          duration: timings.dashLength,
+          audible: true
+        }, {
+          duration: timings.symbolSpace,
+          audible: false
+        })
+        break
+      case ' ':
+        intervals.push({
+          duration: timings.letterSpace,
+          audible: false
+        })
+        break
+      case '/':
+        intervals.push({
+          duration: timings.wordSpace,
+          audible: false
+        })
+        break
+    }
+  }
+
+  let counter = 0
+  for (const interval of intervals) {
+    setTimeout(() => {
+      if (interval.audible) {
+        resumeSound()
+        setTimeout(() => stopSound(), interval.duration)
+      }
+    }, counter)
+    counter += interval.duration
+  }
 }
