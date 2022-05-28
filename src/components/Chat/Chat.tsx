@@ -14,6 +14,7 @@ import { ChatResponse, SuccessResponse } from '../../types/response.types'
 import { SocketIO } from '../../utils/socket-io'
 import { SIOSocket } from '../../types/socket.types'
 import { IMessage } from '../../types/message.interface'
+import { clearSound, initializeSound } from '../../utils/sound'
 import config from '../../../config.json'
 
 const Chat = () => {
@@ -85,6 +86,16 @@ const Chat = () => {
       setSocket(undefined)
     }
   }, [socket])
+
+  // Initialize audio context and set up sound
+  useEffect(() => {
+    initializeSound(750, 0.2)
+      .then()
+    return () => {
+      clearSound()
+        .then()
+    }
+  }, [])
 
   return (
     <div className={`Chat Screen ${settingsShown ? 'ChatDarken' : ''}`}>
