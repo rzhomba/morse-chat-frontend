@@ -47,20 +47,30 @@
   position: fixed;
   top: 8px;
   right: 10px;
-  z-index: 5;
+  z-index: 6;
 }
 
 .SettingsSidebar {
   min-width: 300px;
   position: fixed;
+  z-index: 5;
+}
+
+.Cheatsheet {
+  top: 60px;
+  position: fixed;
   z-index: 4;
+  height: calc(40vh - 60px);
+  width: 100%;
+  min-width: 200px;
 }
 
 @media (min-width: 800px) {
   .Header,
   .MessagesList,
   .InputHint,
-  .InputArea {
+  .InputArea,
+  .Cheatsheet {
     max-width: 800px;
   }
 
@@ -71,11 +81,22 @@
   .SettingsSidebar {
     min-width: calc(300px + (100vw - 800px) / 2);
   }
+
+  .CheatsheetVisible {
+    left: calc((100% - 800px) / 2);
+  }
 }
 
 @media (min-width: 1250px) {
   .SettingsSidebar {
-    min-width: calc((100vw - 800px) / 2);
+    min-width: calc((100% - 800px) / 2);
+  }
+
+  .Cheatsheet {
+    left: 0;
+    align-content: end;
+    height: calc(100vh - 60px);
+    width: calc((100% - 800px) / 2);
   }
 }
 
@@ -86,9 +107,14 @@
     transition: filter 0.5s;
   }
 
+  .Chat .Cheatsheet {
+    transition: filter 0.5s, transform 0.4s;
+  }
+
   .ChatDarken .HeaderWrapper,
   .ChatDarken .MessagesWrapper,
-  .ChatDarken .InputAreaWrapper {
+  .ChatDarken .InputAreaWrapper,
+  .ChatDarken .Cheatsheet {
     filter: brightness(50%);
   }
 }

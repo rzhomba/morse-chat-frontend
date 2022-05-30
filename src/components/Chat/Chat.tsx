@@ -8,6 +8,7 @@ import SettingsButton from './Settings/SettingsButton'
 import SettingsSidebar from './Settings/SettingsSidebar'
 import MessagesList from './Messages/MessagesList'
 import InputArea from './Input/InputArea'
+import Cheatsheet from './Cheatsheet/Cheatsheet'
 import './Chat.css'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { ChatResponse, SuccessResponse } from '../../types/response.types'
@@ -125,6 +126,8 @@ const Chat = () => {
 
       <SettingsSidebar/>
       <SettingsButton/>
+
+      <Cheatsheet/>
     </div>
   )
 }

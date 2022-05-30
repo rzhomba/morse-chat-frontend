@@ -1,0 +1,26 @@
+.Cheatsheet {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+  display: flex;
+  flex-flow: column wrap;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-x: auto;
+  transition: transform 0.4s;
+}
+
+.CheatsheetVisible {
+  transform: translateX(0);
+}
+
+.CheatsheetHidden {
+  transform: translateX(-100%);
+}
+
+.CheatsheetEntry {
+  margin: 0 30px 10px 0;
+}
+
+.CheatsheetEntryCode {
+  margin-left: 1rem;
+}
