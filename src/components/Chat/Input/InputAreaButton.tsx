@@ -93,7 +93,10 @@ const InputAreaButton = () => {
 
   const sendInput = (message: string) => {
     message = validateMorse(message)
-    SocketIO.instance().client().emit('message', message)
+    if (message) {
+      SocketIO.instance().client().emit('message', message)
+    }
+
     setState(() => initialState)
     dispatch(stopInput())
   }
