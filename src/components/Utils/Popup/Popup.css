@@ -1,0 +1,28 @@
+.Popup {
+  background-color: rgb(0 0 0 / 50%);
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.PopupHidden {
+  display: none;
+}
+
+.PopupModal {
+  background-color: var(--bg);
+  border-radius: 20px;
+  max-width: 40%;
+  margin: auto;
+}
+
+.PopupClose {
+  background-color: transparent;
+  position: relative;
+  top: 0;
+  right: 0;
+}
