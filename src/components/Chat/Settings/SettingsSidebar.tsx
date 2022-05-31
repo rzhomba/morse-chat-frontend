@@ -1,35 +1,18 @@
 import React from 'react'
-import { selectSettings, toggleSettings, toggleCheat, toggleDecoding } from '../../../store/settings/settingsSlice'
-import { useAppDispatch, useAppSelector } from '../../../utils/hooks'
-import { useNavigate } from 'react-router-dom'
-import SettingsElement from './SettingsElement'
+import { selectSettings } from '../../../store/settings/settingsSlice'
+import { useAppSelector } from '../../../utils/hooks'
 import './SettingsSidebar.css'
-import InfoIcon from '#icons/info.svg'
-import SheetIcon from '#icons/sheet.svg'
-import LetterIcon from '#icons/letter.svg'
-import UserListIcon from '#icons/userlist.svg'
-import UserAddIcon from '#icons/useradd.svg'
-import UserDelIcon from '#icons/userdel.svg'
-import DeleteIcon from '#icons/delete.svg'
-import LeaveIcon from '#icons/leave.svg'
-import axios from 'axios'
-import { SuccessResponse } from '../../../types/response.types'
-import { selectChat } from '../../../store/chat/chatSlice'
+import HelpOption from './Options/HelpOption'
+import CheatOption from './Options/CheatOption'
+import DecodingOption from './Options/DecodingOption'
+import UsersOption from './Options/UsersOption'
+import InviteOption from './Options/InviteOption'
+import KickOption from './Options/KickOption'
+import DeleteOption from './Options/DeleteOption'
+import LeaveOption from './Options/LeaveOption'
 
 const SettingsSidebar = () => {
-  const { settingsShown, cheatShown, decodingEnabled } = useAppSelector(selectSettings)
-  const { chatKey } = useAppSelector(selectChat)
-  const dispatch = useAppDispatch()
-
-  const navigate = useNavigate()
-
-  const leave = () => {
-    axios.delete<SuccessResponse>(`/chat/leave/${chatKey}`)
-      .then(() => {
-        dispatch(toggleSettings(false))
-        navigate('../')
-      })
-  }
+  const { settingsShown } = useAppSelector(selectSettings)
 
   return (
     <div className={`SettingsSidebar SettingsSidebar${settingsShown ? 'Visible' : 'Hidden'}`}>
@@ -37,28 +20,20 @@ const SettingsSidebar = () => {
         Settings and Info
       </div>
       <div className="Settings">
-        <SettingsElement icon={InfoIcon} label="Help"
-                         onClick={() => {}}/>
-        <SettingsElement icon={SheetIcon} label={`${cheatShown ? 'Hide' : 'Show'} cheat sheet`}
-                         onClick={() => dispatch(toggleCheat(!cheatShown))}/>
-        <SettingsElement icon={LetterIcon} label={`${decodingEnabled ? 'Disable' : 'Enable'} decoding`}
-                         onClick={() => dispatch(toggleDecoding(!decodingEnabled))}/>
+        <HelpOption/>
+        <CheatOption/>
+        <DecodingOption/>
 
         <div className="Delimiter"></div>
 
-        <SettingsElement icon={UserListIcon} label="View users"
-                         onClick={() => {}}/>
-        <SettingsElement icon={UserAddIcon} label="Invite user"
-                         onClick={() => {}}/>
-        <SettingsElement icon={UserDelIcon} label="Remove user" access={'admin'}
-                         onClick={() => {}}/>
+        <UsersOption/>
+        <InviteOption/>
+        <KickOption/>
 
         <div className="Delimiter"></div>
 
-        <SettingsElement icon={DeleteIcon} label="Delete room" warning={true} access={'admin'}
-                         onClick={() => {}}/>
-        <SettingsElement icon={LeaveIcon} label="Leave room" warning={true} access={'member'}
-                         onClick={() => leave()}/>
+        <DeleteOption/>
+        <LeaveOption/>
       </div>
     </div>
   )

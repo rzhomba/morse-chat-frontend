@@ -1,9 +1,9 @@
 import React from 'react'
-import './SettingsElement.css'
+import './SettingsOption.css'
 import { useAppSelector } from '../../../utils/hooks'
 import { selectChat } from '../../../store/chat/chatSlice'
 
-interface SettingsElementProp {
+interface SettingsOptionProp {
   icon: React.FunctionComponent<React.SVGAttributes<SVGElement>>
   label: string
   warning?: boolean
@@ -11,7 +11,7 @@ interface SettingsElementProp {
   onClick: () => void
 }
 
-const SettingsElement = (prop: SettingsElementProp) => {
+const SettingsOption = (prop: SettingsOptionProp) => {
   const { chatUser } = useAppSelector(selectChat)
 
   const isAdmin = chatUser?.role === 'admin'
@@ -26,14 +26,14 @@ const SettingsElement = (prop: SettingsElementProp) => {
 
   return (
     <button
-      className={`SettingsElement 
-                  ${prop.warning ? 'SettingsElementWarning' : ''} 
-                  ${showSetting ? '' : 'SettingsElementHidden'}`}
+      className={`SettingsOption 
+                  ${prop.warning ? 'SettingsOptionWarning' : ''} 
+                  ${showSetting ? '' : 'SettingsOptionHidden'}`}
       onClick={prop.onClick}>
       {<prop.icon/>}
-      <div className="SettingsElementLabel">{prop.label}</div>
+      <div className="SettingsOptionLabel">{prop.label}</div>
     </button>
   )
 }
 
-export default SettingsElement
+export default SettingsOption

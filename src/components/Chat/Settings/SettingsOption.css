@@ -1,4 +1,4 @@
-.SettingsElement {
+.SettingsOption {
   background-color: transparent;
   color: var(--text-dark);
   margin-bottom: 20px;
@@ -8,22 +8,22 @@
   cursor: pointer;
 }
 
-.SettingsElementHidden {
+.SettingsOptionHidden {
   display: none;
 }
 
-.SettingsElementWarning {
+.SettingsOptionWarning {
   color: var(--warning);
 }
 
-.SettingsElementLabel {
+.SettingsOptionLabel {
   align-self: center;
 }
 
-.SettingsElement:hover {
+.SettingsOption:hover {
   filter: brightness(90%);
 }
 
-.SettingsElement:active {
+.SettingsOption:active {
   filter: brightness(80%);
 }
