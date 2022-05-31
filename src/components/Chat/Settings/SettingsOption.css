@@ -5,7 +5,6 @@
   display: flex;
   align-items: baseline;
   gap: 8px;
-  cursor: pointer;
 }
 
 .SettingsOptionHidden {
