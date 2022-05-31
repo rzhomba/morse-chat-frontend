@@ -10,7 +10,7 @@ export const Cheatsheet = () => {
   const entries = []
   for (const [symbol, code] of dictionary) {
     const elem = (
-      <span className="CheatsheetEntry">
+      <span className="CheatsheetEntry" key={symbol + code}>
         <span className="CheatsheetEntrySymbol">{symbol}:</span>
         <span className="CheatsheetEntryCode">{code}</span>
       </span>
