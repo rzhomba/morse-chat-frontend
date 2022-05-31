@@ -1,7 +1,6 @@
 import React from 'react'
 import { selectSettings } from '../../../store/settings/settingsSlice'
 import { useAppSelector } from '../../../utils/hooks'
-import './SettingsSidebar.css'
 import HelpOption from './Options/HelpOption'
 import CheatOption from './Options/CheatOption'
 import DecodingOption from './Options/DecodingOption'
@@ -10,6 +9,7 @@ import InviteOption from './Options/InviteOption'
 import KickOption from './Options/KickOption'
 import DeleteOption from './Options/DeleteOption'
 import LeaveOption from './Options/LeaveOption'
+import './SettingsSidebar.css'
 
 const SettingsSidebar = () => {
   const { settingsShown } = useAppSelector(selectSettings)
