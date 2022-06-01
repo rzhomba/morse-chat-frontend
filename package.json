@@ -1,4 +1,14 @@
 {
+  "name": "morse-chat-frontend",
+  "description": "Frontend SPA for morse chat app",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rzhomba/morse-chat-frontend.git"
+  },
+  "author": "rzhomba",
+  "license": "ISC",
+  "homepage": "https://github.com/rzhomba/morse-chat-frontend",
   "scripts": {
     "run": "webpack-dev-server --mode development",
     "build": "webpack"
