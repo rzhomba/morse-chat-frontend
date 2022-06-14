@@ -1,0 +1,44 @@
+.InviteUserOptionLabel {
+  margin-left: 0.75rem;
+}
+
+.InviteUserOptionField {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0;
+  border-radius: 1rem;
+}
+
+.InviteUserOptionUrl {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+  padding: 0.5rem 1rem;
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+
+.InviteUserOptionCopy {
+  background-color: var(--bg-light);
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  transition: 0.2s;
+}
+
+.InviteUserOptionCopy:active {
+  filter: brightness(80%);
+}
+
+.InviteUserOptionMessage {
+  margin-left: 0.75rem;
+  color: var(--text-darkest);
+  opacity: 0;
+  transform: translateY(50%);
+  transition: 0.2s;
+}
+
+.InviteUserOptionCopied {
+  opacity: 1;
+  transform: translateY(0);
+}
