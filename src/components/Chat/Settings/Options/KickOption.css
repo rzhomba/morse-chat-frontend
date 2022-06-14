@@ -1,0 +1,21 @@
+.KickOptionRecord {
+  min-width: 15rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.KickOptionName {
+  margin-right: 1rem;
+}
+
+.KickOptionRole {
+  color: var(--text-darkest);
+}
+
+.KickOptionButton {
+  background-color: transparent;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
