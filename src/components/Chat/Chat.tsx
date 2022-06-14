@@ -9,6 +9,7 @@ import SettingsSidebar from './Settings/SettingsSidebar'
 import MessagesList from './Messages/MessagesList'
 import InputArea from './Input/InputArea'
 import Cheatsheet from './Cheatsheet/Cheatsheet'
+import Popup from '../Utils/Popup'
 import './Chat.css'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { ChatResponse, SuccessResponse } from '../../types/response.types'
@@ -128,6 +129,8 @@ const Chat = () => {
       <SettingsButton/>
 
       <Cheatsheet/>
+
+      <Popup/>
     </div>
   )
 }

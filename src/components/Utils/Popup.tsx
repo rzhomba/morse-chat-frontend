@@ -24,7 +24,12 @@ const createPopupQueue = () => {
     listeners.add(listener)
     return () => listeners.delete(listener)
   }
-  return { getQueue, addElement, extractElement, subscribe }
+  return {
+    getQueue,
+    addElement,
+    extractElement,
+    subscribe
+  }
 }
 
 const popupQueue = createPopupQueue()
@@ -49,11 +54,18 @@ const Popup = () => {
 
   const closePopup = () => {
     setVisibility(false)
-    console.log('hidden')
+  }
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target !== e.currentTarget) {
+      return
+    }
+
+    closePopup()
   }
 
   return (
-    <div className={`Popup ${visible ? '' : 'PopupHidden'}`}>
+    <div className={`Popup ${visible ? '' : 'PopupHidden'}`} onClick={(e) => handleClick(e)}>
       <div className="PopupModal">
         <div className="PopupTitle">
           {title}

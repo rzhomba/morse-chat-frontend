@@ -16,7 +16,6 @@
 .PopupModal {
   background-color: var(--bg);
   border-radius: 20px;
-  max-width: 40%;
   margin: auto;
   position: relative;
 }
