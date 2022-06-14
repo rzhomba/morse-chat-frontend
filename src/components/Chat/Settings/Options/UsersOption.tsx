@@ -21,7 +21,7 @@ const UsersPopup = () => {
       </thead>
       <tbody>
       {chatUsers.map(user => (
-        <tr key={user.name}>
+        <tr key={'users-option-' + user.name}>
           <td>{user.name}</td>
           <td className="UsersOptionDate">
             {
