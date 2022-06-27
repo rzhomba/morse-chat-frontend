@@ -1,7 +1,7 @@
 import React from 'react'
 import SettingsOption from '../SettingsOption'
 import DeleteIcon from '#icons/delete.svg'
-import { displayPopup } from '../../../Utils/Popup'
+import { displayPopup, closePopup } from '../../../Utils/Popup'
 import './DeleteOption.css'
 
 const DeletePopup = () => {
@@ -13,7 +13,7 @@ const DeletePopup = () => {
       <div className="DeleteOptionLabel">Are you sure?</div>
       <div className="DeleteOptionButtons">
         <button className="Button ButtonSecondary" onClick={() => deleteRoom()}>Proceed</button>
-        <button className="Button">Cancel</button>
+        <button className="Button" onClick={() => closePopup()}>Cancel</button>
       </div>
     </div>
   )
