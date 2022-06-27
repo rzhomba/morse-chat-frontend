@@ -12,22 +12,38 @@ const createPopupQueue = () => {
   const getQueue = (): QueueElement[] => {
     return queue
   }
-  const listeners = new Set<() => void>()
-  const addElement = (elem: QueueElement) => {
+
+  const pushListeners = new Set<() => void>()
+  const extractListeners = new Set<() => void>()
+
+  const pushElement = (elem: QueueElement): void => {
     queue.push(elem)
-    listeners.forEach(l => l())
+    pushListeners.forEach(l => l())
   }
-  const extractElement = (): QueueElement | undefined => {
-    return queue.shift()
+
+  const extractElement = (): void => {
+    queue.shift()
+    extractListeners.forEach(l => l())
   }
-  const subscribe = (listener: () => void) => {
-    listeners.add(listener)
-    return () => listeners.delete(listener)
+
+  const getLast = (): QueueElement | undefined => {
+    return queue[0]
   }
+
+  const subscribe = (pushListener: () => void, extractListener: () => void) => {
+    pushListeners.add(pushListener)
+    extractListeners.add(extractListener)
+    return () => {
+      pushListeners.delete(pushListener)
+      extractListeners.delete(extractListener)
+    }
+  }
+
   return {
     getQueue,
-    addElement,
+    pushElement,
     extractElement,
+    getLast,
     subscribe
   }
 }
@@ -35,7 +51,11 @@ const createPopupQueue = () => {
 const popupQueue = createPopupQueue()
 
 export const displayPopup = (element: QueueElement): void => {
-  popupQueue.addElement(element)
+  popupQueue.pushElement(element)
+}
+
+export const closePopup = (): void => {
+  popupQueue.extractElement()
 }
 
 const Popup = () => {
@@ -45,15 +65,19 @@ const Popup = () => {
 
   useSyncExternalStore((): () => void => {
     return popupQueue.subscribe(() => {
-      const element = popupQueue.extractElement()
+      const element = popupQueue.getLast()
       setTitle(element?.title)
       setContent(element?.content)
       setVisibility(true)
+    }, () => {
+      setVisibility(false)
+      setTitle(undefined)
+      setContent(undefined)
     })
   }, popupQueue.getQueue)
 
   const closePopup = () => {
-    setVisibility(false)
+    popupQueue.extractElement()
   }
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
